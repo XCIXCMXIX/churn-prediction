@@ -1,0 +1,57 @@
+{
+  "b": 0.019322216547288495,
+  "num": {
+    "tenure": -0.028650066190263227,
+    "MonthlyCharges": 0.007748218243139801
+  },
+  "cat": {
+    "Contract": {
+      "Month-to-month": 0.6626248402724568,
+      "One year": -0.17348775107414643,
+      "Two year": -0.875965694966206
+    },
+    "InternetService": {
+      "DSL": -0.34573818347608637,
+      "Fiber optic": 0.38933458373522223,
+      "No": -0.4304250060270308
+    },
+    "PaymentMethod": {
+      "Bank transfer (automatic)": -0.25729776955838285,
+      "Credit card (automatic)": -0.19243428661326062,
+      "Electronic check": 0.2477874313189602,
+      "Mailed check": -0.18488398091521244
+    },
+    "TechSupport": {
+      "No": 0.22569938335803405,
+      "No internet service": -0.4304250060270308,
+      "Yes": -0.1821029830989
+    },
+    "PaperlessBilling": {
+      "No": -0.36457998809442527,
+      "Yes": -0.022248617673481897
+    }
+  },
+  "metrics": {
+    "Logistic Regression": {
+      "accuracy": 0.728,
+      "precision": 0.493,
+      "recall": 0.791,
+      "f1": 0.607,
+      "cv_f1": 0.62
+    },
+    "Decision Tree": {
+      "accuracy": 0.743,
+      "precision": 0.511,
+      "recall": 0.791,
+      "f1": 0.621,
+      "cv_f1": 0.621
+    },
+    "Random Forest": {
+      "accuracy": 0.726,
+      "precision": 0.49,
+      "recall": 0.783,
+      "f1": 0.603,
+      "cv_f1": 0.629
+    }
+  }
+}

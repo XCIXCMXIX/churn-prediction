@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Customer Churn Predictor</title>
+<style>
+ body{font-family:system-ui,sans-serif;background:#f4f6fb;margin:0;padding:24px;color:#1c2333}
+ .card{max-width:520px;margin:auto;background:#fff;padding:24px;border-radius:14px;box-shadow:0 4px 18px #0001}
+ h1{font-size:22px;margin:0 0 4px} p.s{color:#667;margin:0 0 18px;font-size:14px}
+ label{display:block;font-size:13px;margin:12px 0 4px;font-weight:600}
+ input,select{width:100%;padding:10px;border:1px solid #ccd;border-radius:8px;font-size:15px;box-sizing:border-box}
+ button{margin-top:18px;width:100%;padding:12px;border:0;border-radius:8px;background:#3b5bdb;color:#fff;font-size:16px;cursor:pointer}
+ #out{margin-top:18px;padding:14px;border-radius:8px;display:none;text-align:center;font-size:18px}
+ .bad{background:#ffe3e3;color:#c92a2a}.good{background:#d3f9d8;color:#2b8a3e}
+ table{width:100%;font-size:12px;margin-top:20px;border-collapse:collapse}
+ td,th{padding:5px;border-bottom:1px solid #eee;text-align:left}
+</style></head><body>
+<div class="card">
+ <h1>Customer Churn Predictor</h1>
+ <p class="s">Customer ki details bharo, model batayega churn hoga ya nahi.</p>
+ {% for c in m.num %}
+  <label>{{c}}</label><input type="number" id="{{c}}" value="{{ 12 if c=='tenure' else 70 }}" min="0" step="any">
+ {% endfor %}
+ {% for c, opts in m.cat.items() %}
+  <label>{{c}}</label>
+  <select id="{{c}}">{% for o in opts %}<option>{{o}}</option>{% endfor %}</select>
+ {% endfor %}
+ <button onclick="go()">Predict</button>
+ <div id="out"></div>
+ <table><tr><th>Model</th><th>Acc</th><th>Prec</th><th>Recall</th><th>F1</th></tr>
+ {% for n, s in m.metrics.items() %}
+  <tr><td>{{n}}</td><td>{{s.accuracy}}</td><td>{{s.precision}}</td><td>{{s.recall}}</td><td>{{s.f1}}</td></tr>
+ {% endfor %}</table>
+</div>
+<script>
+const FIELDS = {{ (m.num.keys()|list + m.cat.keys()|list) | tojson }};
+async function go(){
+  const d = {}; FIELDS.forEach(f => d[f] = document.getElementById(f).value);
+  const r = await fetch("/predict",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(d)});
+  const j = await r.json(), o = document.getElementById("out");
+  o.style.display="block"; o.className = j.prob>=50 ? "bad":"good";
+  o.innerHTML = `<b>${j.label}</b><br>Churn probability: ${j.prob}%`;
+}
+</script></body></html>
